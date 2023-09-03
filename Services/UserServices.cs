@@ -43,5 +43,30 @@ namespace Web_API_Assessment.Services
             }
             throw new Exception("Invalid ids");
         }
+
+        public async Task<User>GetUserByEmail(string email)
+        {
+            return await _context.Users.Where(u => u.Email == email).FirstOrDefaultAsync();
+        }
+
+        public  async Task<string> DeleteUser(User user)
+        {
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
+            return "User Deleted Successfully";
+        }      
+
+      
+
+       public Task<string> UpdateUserById(User user)
+        {
+            throw new NotImplementedException();
+        }
+
+       public async Task<User> GetUserById(Guid id)
+        {
+            return await _context.Users.Where(u => u.Id == id).FirstOrDefaultAsync();
+            
+        }
     }
 }

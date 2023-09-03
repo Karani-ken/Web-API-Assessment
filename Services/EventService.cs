@@ -51,5 +51,19 @@ namespace Web_API_Assessment.Services
            return await _context.Events.ToListAsync();
             
         }
+
+        public async Task<string> UpdateEvent(Event Event)
+        {
+            _context.Events.Update(Event);
+            await _context.SaveChangesAsync();
+            return "Event updated successfully";
+        }
+
+       public async Task<string> DeleteEvent(Event Event)
+        {
+            _context.Events.Remove(Event);
+            await _context.SaveChangesAsync();
+            return "event deleted successfully";            
+        }
     }
 }

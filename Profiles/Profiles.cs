@@ -9,6 +9,7 @@ namespace Web_API_Assessment.Profiles
         public Profiles()
         {
             CreateMap<AddUser, User>().ReverseMap();
+            CreateMap<LogUser, User>().ReverseMap();
             CreateMap<AddEvent, Event>().ReverseMap();
         }
     }

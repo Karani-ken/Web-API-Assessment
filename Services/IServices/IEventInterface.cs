@@ -6,8 +6,12 @@ namespace Web_API_Assessment.Services.IServices
     {
         //Create Event
         Task<string> CreateEvent(Event Event);
+        //update events
+        Task<string> UpdateEvent(Event Event);
+        //Delete Event
+        Task<string> DeleteEvent(Event Event);
 
-        //Get slots available
+        //Get event by id
         Task<Event> GetEventById(Guid id);
 
         //get all events

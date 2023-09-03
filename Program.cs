@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Web_API_Assessment.Data;
+using Web_API_Assessment.Extensions;
 using Web_API_Assessment.Services;
 using Web_API_Assessment.Services.IServices;
 
@@ -24,6 +25,15 @@ builder.Services.AddScoped<IEventInterface, EventService>();
 //auto mapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+//add authenitication
+builder.AddAppAuthentication();
+
+//add authorization
+builder.addAdminAuthorization();
+
+//swagger api configurations
+builder.AddSwaggenGenExtension();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -38,5 +48,5 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-
+app.ApplyMigration();
 app.Run();
