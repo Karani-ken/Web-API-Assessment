@@ -17,8 +17,9 @@ namespace Web_API_Assessment.Services
       
         public async Task<IEnumerable<Event>> basedOnLocation(string? location)
         {
-          
-           return await _context.Events.Where(e=>e.Location.Contains(location)).ToListAsync();
+          var query = _context.Events.AsQueryable<Event>();
+            query = query.Where(e => e.Location.ToLower().Contains(location.ToLower()));
+            return (await query.ToListAsync());
         }
 
         public async Task<string> CreateEvent(Event Event)
@@ -37,10 +38,18 @@ namespace Web_API_Assessment.Services
            
         }
 
-        public async Task<Event> RemainingSlots(Guid id)
+        public async Task<Event> GetEventById(Guid id)
         {
-            return await _context.Events.Where(e => e.Id == id).FirstOrDefaultAsync();
+            return await _context.Events.Where(e => e.Id == id)
+                .Include(e=>e.Users)
+                .FirstOrDefaultAsync();
            
+        }
+
+       public async Task<IEnumerable<Event>> GetAllEvents()
+        {
+           return await _context.Events.ToListAsync();
+            
         }
     }
 }

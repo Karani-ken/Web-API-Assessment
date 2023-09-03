@@ -8,7 +8,10 @@ namespace Web_API_Assessment.Services.IServices
         Task<string> CreateEvent(Event Event);
 
         //Get slots available
-        Task<Event> RemainingSlots(Guid id);
+        Task<Event> GetEventById(Guid id);
+
+        //get all events
+        Task<IEnumerable<Event>> GetAllEvents();
 
         //return events based on location
         Task<IEnumerable<Event>> basedOnLocation(string? location);

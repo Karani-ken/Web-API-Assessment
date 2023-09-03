@@ -31,7 +31,7 @@ namespace Web_API_Assessment.Services
            
         }
 
-        async Task<string> IUserInterface.BookEvent(BookEvent bookevent)
+       public async Task<string> BookEvent(BookEvent bookevent)
         {
             var User = await _context.Users.Where(u => u.Id == bookevent.UserId).FirstOrDefaultAsync();
             var Event = await _context.Events.Where(e => e.Id == bookevent.EventId).FirstOrDefaultAsync();
@@ -39,7 +39,7 @@ namespace Web_API_Assessment.Services
             {
                 User.Events.Add(Event);
                 await _context.SaveChangesAsync();
-                return ("Course Purchased");
+                return ("Booking Successfully");
             }
             throw new Exception("Invalid ids");
         }

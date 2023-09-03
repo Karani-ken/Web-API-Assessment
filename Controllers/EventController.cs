@@ -8,34 +8,17 @@ namespace Web_API_Assessment.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController_ : ControllerBase
+    public class EventController : ControllerBase
     {
-        private readonly IUserInterface _userService;
+       
         private readonly IMapper _mapper;
         private readonly IEventInterface _eventService;
-        public UserController_(IUserInterface userService, IMapper mapper, IEventInterface eventservice)
+        public EventController( IMapper mapper, IEventInterface eventservice)
         {
-            _mapper = mapper;
-            _userService = userService;
-            _eventService= eventservice;
+            _mapper = mapper;            
+            _eventService = eventservice;
         }
-
-        [HttpPost("User")]
-        //register user
-        public async Task<ActionResult<string>> RegisterUser(AddUser newUser)
-        {
-            var user = _mapper.Map<User>(newUser);
-            var res = await _userService.RegisterUser(user);
-
-            return CreatedAtAction(nameof(RegisterUser), res);
-        }
-        [HttpGet("User")]
-        public async Task<ActionResult<IEnumerable<User>>> getAllUsers()
-        {
-            var users = await _userService.GetUsers();
-            return Ok(users);
-        }
-        [HttpPost("Event")]
+        [HttpPost]
         //add event
         public async Task<ActionResult<string>> CreateEvent(AddEvent newEvent)
         {
@@ -43,8 +26,14 @@ namespace Web_API_Assessment.Controllers
             var res = await _eventService.CreateEvent(eventToAdd);
             return Ok(res);
         }
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Event>>> getAllEvents()
+        {
+            var Events = await _eventService.GetAllEvents();
+            return Ok(Events);
+        }
         //get Event by location
-        [HttpGet("Event")]
+        [HttpGet("location")]
         public async Task<ActionResult<IEnumerable<Event>>> GetEventsByLocation(string? location)
         {
             var Events = await _eventService.basedOnLocation(location);
@@ -53,16 +42,16 @@ namespace Web_API_Assessment.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<int>> GetEventCapacity(Guid id)
         {
-            var SelectedEvent = await _eventService.RemainingSlots(id);
-            if(SelectedEvent == null)
+            var SelectedEvent = await _eventService.GetEventById(id);
+            if (SelectedEvent == null)
             {
                 return BadRequest("Event Does not Exist");
             }
             var Capacity = SelectedEvent.Capacity;
-            var BookedSlots = SelectedEvent.Users.Count();
-            var remainingSlots = Capacity - BookedSlots;
+            var BookedSlots = SelectedEvent.Users.Count;
+           var remainingSlots = Capacity - BookedSlots;
 
-            return remainingSlots;
+            return BookedSlots;
         }
     }
 }
