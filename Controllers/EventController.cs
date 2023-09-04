@@ -58,7 +58,7 @@ namespace Web_API_Assessment.Controllers
             var BookedSlots = SelectedEvent.Users.Count;
             var remainingSlots = Capacity - BookedSlots;
 
-            return BookedSlots;
+            return remainingSlots;
         }
         //delete event by admin
         [HttpDelete("{id}")]
@@ -80,6 +80,7 @@ namespace Web_API_Assessment.Controllers
         [Authorize]
         public async Task<ActionResult<string>> UpdateEvent(Guid id, AddEvent eventUpdate)
         {
+           
             var EventToUpdate = await _eventService.GetEventById(id);
             if(EventToUpdate == null)
             {
