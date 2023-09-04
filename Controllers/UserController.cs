@@ -33,6 +33,7 @@ namespace Web_API_Assessment.Controllers
             var user = _mapper.Map<User>(newUser);
             //hash password
             user.password = BCrypt.Net.BCrypt.HashPassword(user.password);
+          //  user.Role = "Admin";
             var res = await _userService.RegisterUser(user);
 
             return CreatedAtAction(nameof(RegisterUser), res);

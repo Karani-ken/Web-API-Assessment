@@ -11,7 +11,7 @@
 
         public string Email { get; set; }
 
-        public string Role { get; set; } = "Admin";
+        public string Role { get; set; } = "User";
 
         public List<Event> Events { get; set; } = new List<Event>();
     }
